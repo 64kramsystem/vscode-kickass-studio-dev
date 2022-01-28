@@ -1,9 +1,9 @@
 {
 	"name": "kickass-studio",
-	"displayName": "Kick Assembler Studio",
-	"version": "1.0.8",
+	"displayName": "Kick Assembler Studio (WITH WORKAROUND)",
+	"version": "1.0.108",
 	"publisher": "sanmont",
-	"description": "Kick Assembler visual studio code extension for creating and debugging C64 projects",
+	"description": "Kick Assembler visual studio code extension (WITH WORKAROUND)",
 	"author": {
 		"name": "Santiago Montero",
 		"email": "alvaro.santiago.montero@gmail.com"
