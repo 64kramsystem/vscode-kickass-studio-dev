@@ -259,10 +259,34 @@ export class KickAssemblerDebugSession extends DebugSession {
 	}
 
 	private locationToStackFrame(location: SourceLocation, index: number): StackFrame {
-		const source = this.createSource(location.filename);
-		const line = this.convertDebuggerLineToClient(location.line);
-		const column = this.convertDebuggerColumnToClient(location.column);
-		return new StackFrame(index, location.address, source, line, column);
+    // There is a likely racing condition, that causes the debugger to hang.
+    // The triggering condition is quickly stepping through the code; it seems that some VICE versions
+    // (3.16) cause this problem more often than others (3.14). Slowly stepping through seems not to
+    // trigger the bug.
+    // Without domain knowledge, the simplest workaround is to return a hardcoded location.
+    //
+    if (location == undefined) {
+      const stackFrame = {
+        "id": index,
+        "source": {
+          "name": "extension_error.asm",
+          "path": "",
+          "sourceReference": 0,
+          "adapterData": "kickass-adapter-data"
+        },
+        "line": 1,
+        "column": 1,
+        "name": "$0000"
+      };
+
+      return stackFrame;
+    }
+    else {
+			const source = this.createSource(location.filename);
+			const line = this.convertDebuggerLineToClient(location.line);
+			const column = this.convertDebuggerColumnToClient(location.column);
+			return new StackFrame(index, location.address, source, line, column);
+		}
 	}
 
 	private createSource(filePath: string): Source {
